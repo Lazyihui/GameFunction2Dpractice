@@ -8,6 +8,8 @@ public class Main : MonoBehaviour
     void Awake()
     {
         Debug.Log("Main Awake");
+
+
     }
 
     // Update is called once per frame
@@ -15,4 +17,7 @@ public class Main : MonoBehaviour
     {
         
     }
+
+    
+
 }
