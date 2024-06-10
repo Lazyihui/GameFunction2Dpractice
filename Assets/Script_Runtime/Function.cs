@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Function {
+public  class Function {
     const float G_COST = 10;
 
     SortedSet<RectCell> openSet = new SortedSet<RectCell>();
@@ -36,6 +36,10 @@ public class Function {
         int resultCount = 0;
 
         if (isManuallyProcess) {
+            bool isDone = ProcessCell(ref visited, ref resultCount, limitedCount, start, end, isWalkable, result, out _);
+            if (isDone) {
+                return resultCount;
+            }
             return 0;
         }
 
