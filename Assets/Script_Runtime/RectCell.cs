@@ -8,16 +8,16 @@ public class RectCell
 {
     public Vector2Int position;
 
-    public int fCost;
-    public int gCost;
-    public int hCost;
+    public float fCost;
+    public float gCost;
+    public float hCost;
 
-    public void Init(Vector2Int position, int fCost, int gCost, int hCost)
+    public void Init(Vector2Int position, float fCost, float gCost, float hCost)
     {
         this.position = position;
         this.fCost = fCost;
         this.gCost = gCost;
         this.hCost = hCost;
     }
-
+    
 }
