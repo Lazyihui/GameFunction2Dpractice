@@ -43,12 +43,14 @@ public class Function2 {
         nextCell = GetMinFCell(end);
 
         openSetKey.Add(nextCell);
+
         if (nextCell.position == end) {
             // 结束这个函数
 
             return -1;
 
         } else {
+
             return 0;
         }
 
@@ -71,7 +73,7 @@ public class Function2 {
         openSetKey.Add(nextCell);
         if (nextCell.position == end) {
             // 结束这个函数
-
+            Debug.Log("结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return -1;
 
         } else {
@@ -81,7 +83,7 @@ public class Function2 {
                 Debug.Log(cell.position + "总和 " + cell.fCost);
 
             }
-            return 0;
+            return ProcessCell(nextCell.position, end, hinders);
         }
 
     }
