@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Function2 {
 
-    public Dictionary<Vector2Int, RectCell2> openSetKey = new Dictionary<Vector2Int, RectCell2>();
+    public HashSet<RectCell2> openSetKey = new HashSet<RectCell2>();
 
-    public Dictionary<Vector2Int, RectCell2> closeSetKey = new Dictionary<Vector2Int, RectCell2>();
+    public HashSet<RectCell2> closeSetKey = new HashSet<RectCell2>();
     // ↑ ↓ ← →
     public Vector2Int[] neighbors = new Vector2Int[] {
             new Vector2Int(1, 0),
@@ -16,25 +16,25 @@ public class Function2 {
             new Vector2Int(0, -1)
         };
 
-    public Vector2Int[] hinder = new Vector2Int[]{
-        new Vector2Int(6,8),
-        new Vector2Int(6,9),
-        new Vector2Int(6,10)
+    public RectCell2[] hinder = new RectCell2[]{
+        new RectCell2 { position = new Vector2Int(6, 9) , hCost = 10000, gCost = 10000, fCost = 1000000},
+        new RectCell2 { position = new Vector2Int(7, 9) , hCost = 10000, gCost = 10000, fCost = 1000000},
+        new RectCell2 { position = new Vector2Int(8, 9) , hCost = 10000, gCost = 10000, fCost = 1000000}
     };
 
-    public int ProcessCellMain(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/Vector2Int[] hinders) {
+    public int ProcessCellMain(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
 
         closeSetKey.Clear();
         for (int i = 0; i < 3; i++) {
-            Vector2Int hinder = hinders[i];
+            RectCell2 hinder = hinders[i];
             RectCell2 tem = new RectCell2();
-            tem.Init(hinder, 10000, 10000, 1000000);
-            closeSetKey.Add(hinder, tem);
+            closeSetKey.Add(hinder);
         }
+
         // 添加一开始的位置
         RectCell2 startCell = new RectCell2();
         startCell.Init(start, 0, 0, 0);
-        openSetKey.Add(start, startCell);
+        openSetKey.Add(startCell);
 
         AddNeighbor(startCell, end);
 
@@ -42,7 +42,7 @@ public class Function2 {
 
         nextCell = GetMinFCell(end);
 
-        openSetKey.Add(nextCell.position, nextCell);
+        openSetKey.Add(nextCell);
         if (nextCell.position == end) {
             // 结束这个函数
 
@@ -56,7 +56,7 @@ public class Function2 {
 
 
 
-    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/Vector2Int[] hinders) {
+    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
 
         // 添加一开始的位置
         RectCell2 startCell = new RectCell2();
@@ -68,7 +68,7 @@ public class Function2 {
 
         nextCell = GetMinFCell(end);
 
-        openSetKey.Add(nextCell.position, nextCell);
+        openSetKey.Add(nextCell);
         if (nextCell.position == end) {
             // 结束这个函数
 
@@ -97,12 +97,12 @@ public class Function2 {
                 Debug.Log("走到了");
             }
 
-            if (closeSetKey.ContainsKey(neighborPos)) {
+            if (closeSetKey.Contains(tem)) {
                 Debug.Log("已经存在");
 
             } else {
                 Debug.Log(tem.fCost);
-                closeSetKey.Add(neighborPos, tem);
+                closeSetKey.Add(tem);
             }
         }
     }
@@ -112,12 +112,11 @@ public class Function2 {
 
         RectCell2 minCell = null;
         // 查找所有的值 找到最小的
-        foreach (var cell in closeSetKey.Values) {
+        foreach (var cell in closeSetKey) {
 
             // Debug.Log(closeSetKey.Values);
 
             if (minCell == null || cell.fCost < minCell.fCost) {
-
                 minCell = cell;
             }
 
