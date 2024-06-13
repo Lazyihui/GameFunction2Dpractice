@@ -29,13 +29,6 @@ public class Function2 {
             RectCell2 hinder = hinders[i];
             RectCell2 tem = new RectCell2();
             closeSetKey.Add(hinder);
-
-            foreach (var cell in closeSetKey) {
-
-                Debug.Log(cell.position + "总和 " + cell.fCost);
-
-            }
-
         }
 
         // 添加一开始的位置

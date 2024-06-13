@@ -10,7 +10,7 @@ public class Main : MonoBehaviour {
 
         function2 = new Function2();
         function2.openSetKey.Clear();
-        a = function2.ProcessCellMain(new Vector2Int(5, 9), new Vector2Int(8, 7), function2.hinder);
+        a = function2.ProcessCellMain(new Vector2Int(4, 9), new Vector2Int(8, 7), function2.hinder);
     }
 
     void Update() {
@@ -18,7 +18,7 @@ public class Main : MonoBehaviour {
 
 
         if (a == 0) {
-            a = function2.ProcessCell(new Vector2Int(5, 9), new Vector2Int(8, 7), function2.hinder);
+            a = function2.ProcessCell(new Vector2Int(4, 9), new Vector2Int(8, 7), function2.hinder);
         } else {
 
         }
