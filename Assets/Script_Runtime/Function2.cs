@@ -18,8 +18,8 @@ public class Function2 {
 
     public RectCell2[] hinder = new RectCell2[]{
         new RectCell2 { position = new Vector2Int(6, 9) , hCost = 10000, gCost = 10000, fCost = 1000000},
-        new RectCell2 { position = new Vector2Int(7, 9) , hCost = 10000, gCost = 10000, fCost = 1000000},
-        new RectCell2 { position = new Vector2Int(8, 9) , hCost = 10000, gCost = 10000, fCost = 1000000}
+        new RectCell2 { position = new Vector2Int(6, 8) , hCost = 10000, gCost = 10000, fCost = 1000000},
+        new RectCell2 { position = new Vector2Int(6, 10) , hCost = 10000, gCost = 10000, fCost = 1000000}
     };
 
     public int ProcessCellMain(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
@@ -29,6 +29,13 @@ public class Function2 {
             RectCell2 hinder = hinders[i];
             RectCell2 tem = new RectCell2();
             closeSetKey.Add(hinder);
+
+            foreach (var cell in closeSetKey) {
+
+                Debug.Log(cell.position + "总和 " + cell.fCost);
+
+            }
+
         }
 
         // 添加一开始的位置
@@ -36,7 +43,7 @@ public class Function2 {
         startCell.Init(start, 0, 0, 0);
         openSetKey.Add(startCell);
 
-        AddNeighbor(startCell, end);
+        // AddNeighbor(startCell, end);
 
         RectCell2 nextCell = new RectCell2();
 
@@ -75,6 +82,12 @@ public class Function2 {
             return -1;
 
         } else {
+            Debug.Log("继续");
+            foreach (var cell in closeSetKey) {
+
+                Debug.Log(cell.position + "总和 " + cell.fCost);
+
+            }
             return 0;
         }
 
@@ -101,7 +114,6 @@ public class Function2 {
                 Debug.Log("已经存在");
 
             } else {
-                Debug.Log(tem.fCost);
                 closeSetKey.Add(tem);
             }
         }
