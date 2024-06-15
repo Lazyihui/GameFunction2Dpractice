@@ -12,16 +12,17 @@ public class Main : MonoBehaviour {
     [SerializeField] Vector2Int start;
     [SerializeField] Vector2Int end;
 
-    List<RectCell2> hinder = new List<RectCell2>();
+    [SerializeField] List<RectCell2> hinder = new List<RectCell2>();
+
+
 
     void Awake() {
         count = 0;
         function2 = new Function2();
-        function2.openSetKey.Clear();
-        function2.openSetValuePos.Clear();
+        function2.openSet.Clear();
         // a = function2.ProcessCell(start, end, hinder);
-        
-        function2.Start(start, end, hinder);
+
+        function2.Start(start, end, hinder, count);
 
     }
 
@@ -67,12 +68,12 @@ public class Main : MonoBehaviour {
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(new Vector3(end.x, end.y, 0), new Vector3(1, 1, 1));
 
-        if (function2 != null) {
-            foreach (var pos in function2.openSetValuePos) {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawCube(new Vector3(pos.x, pos.y, 0), new Vector3(1, 1, 1));
-            }
-        }
+        // if (function2 != null) {
+        //     foreach (var pos in function2.openSetValuePos) {
+        //         Gizmos.color = Color.yellow;
+        //         Gizmos.DrawCube(new Vector3(pos.x, pos.y, 0), new Vector3(1, 1, 1));
+        //     }
+        // }
 
     }
 

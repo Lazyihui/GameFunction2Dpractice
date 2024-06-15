@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Function2 {
 
-    public HashSet<RectCell2> openSetKey = new HashSet<RectCell2>();
+    public HashSet<RectCell2> openSet = new HashSet<RectCell2>();
 
-    public HashSet<Vector2Int> openSetValuePos = new HashSet<Vector2Int>();
+    // public HashSet<Vector2Int> openSetValuePos = new HashSet<Vector2Int>();
 
-    public HashSet<RectCell2> closeSetKey = new HashSet<RectCell2>();
+    public HashSet<RectCell2> closeSet = new HashSet<RectCell2>();
 
-    public HashSet<Vector2Int> closeSetValuePos = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> closeSetKey = new HashSet<Vector2Int>();
 
     // ↑ ↓ ← →
     public Vector2Int[] neighbors = new Vector2Int[] {
@@ -21,52 +21,77 @@ public class Function2 {
         new Vector2Int(0, -1)
     };
 
-    public void Start(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders) {
+    public void Start(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders, int count) {
+        closeSet.Clear();
         closeSetKey.Clear();
-        closeSetValuePos.Clear();
+        openSet.Clear();
         for (int i = 0; i < hinders.Count; i++) {
             RectCell2 hinder = hinders[i];
             RectCell2 tem = new RectCell2();
-            closeSetKey.Add(hinder);
-            closeSetValuePos.Add(hinder.position);
+            closeSet.Add(hinder);
+            closeSetKey.Add(hinder.position);
         }
 
         // 添加一开始的位置
         RectCell2 startCell = new RectCell2();
         startCell.Init(start, 0, 0, 0);
+        openSet.Add(startCell);
 
-        AddNeighbor(startCell, end);
+
+        closeSetKey.Add(new Vector2Int(1, 1));
+
+        // AddNeighbor(startCell, end);
+
 
     }
 
     public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders, ref int count) {
-
+        // -1 结束
 
         RectCell2 nextCell = new RectCell2(); // OpenList Get FCost最小的
+                                              // RectCell2 nextCell = GetMinFCell(end);        
         nextCell = GetMinFCell(end);
 
-        Debug.Log("最小的值是" + nextCell.position + " " + nextCell.fCost);
+        for (int i = 0; i < 4; i++) {
 
-        openSetKey.Add(nextCell);
-        openSetValuePos.Add(nextCell.position);
-        if (nextCell.position == end) {
-            // 结束这个函数
-            Debug.Log("结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-            foreach (var pos in openSetValuePos) {
-                Debug.Log("openSetValuePos" + pos);
+            Vector2Int neighborPos = nextCell.position + neighbors[i];
+
+            if (neighborPos == end) {
+                Debug.Log("走到了");
             }
+
+            if (closeSetKey.Contains(neighborPos)) {
+
+            } else {
+                RectCell2 tem = new RectCell2();
+                tem.position = neighborPos;
+                tem.hCost = 10;
+                tem.gCost = H_Manhattan(neighborPos, end);
+                tem.fCost = tem.hCost + tem.gCost;
+                openSet.Add(tem);
+            }
+        }
+        openSet.Remove(nextCell);
+        closeSet.Add(nextCell);
+        closeSetKey.Add(nextCell.position);
+
+        if (nextCell == null) {
+            Debug.Log("没有找到最小的值");
+            return -1;
+        }
+
+        if (nextCell.position == end) {
+
+            Debug.Log("结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+
             return -1;
 
         } else {
-            Debug.Log("继续");
-            count++;
             if (count > 100) {
                 return -1;
-            } else {
-                Debug.Log(count + "次");
-                return ProcessCell(nextCell.position, end, hinders, ref count);
-
             }
+            count++;
+            return ProcessCell(start, end, hinders, ref count);
         }
 
     }
@@ -80,21 +105,23 @@ public class Function2 {
 
             if (neighborPos == end) {
                 Debug.Log("走到了");
+
+            
+            
             }
 
-            if (closeSetValuePos.Contains(neighborPos)) {
-
-                Debug.Log(neighborPos + "已经存在不能走的位置了");
+            if (closeSetKey.Contains(neighborPos)) {
 
             } else {
-
                 RectCell2 tem = new RectCell2();
                 tem.position = neighborPos;
                 tem.hCost = 10;
                 tem.gCost = H_Manhattan(neighborPos, end);
                 tem.fCost = tem.hCost + tem.gCost;
-                closeSetKey.Add(tem);
+                openSet.Remove(start_Cur);
+                closeSet.Add(tem);
             }
+
         }
     }
 
@@ -103,7 +130,7 @@ public class Function2 {
 
         RectCell2 minCell = null;
         // 查找所有的值 找到最小的
-        foreach (var cell in closeSetKey) {
+        foreach (var cell in openSet) {
 
             if (minCell == null || cell.fCost < minCell.fCost) {
                 minCell = cell;
