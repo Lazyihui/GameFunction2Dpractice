@@ -60,6 +60,13 @@ public class Function2 {
 
     public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
 
+        closeSetKey.Clear();
+        for (int i = 0; i < 3; i++) {
+            RectCell2 hinder = hinders[i];
+            RectCell2 tem = new RectCell2();
+            closeSetKey.Add(hinder);
+        }
+
         // 添加一开始的位置
         RectCell2 startCell = new RectCell2();
         startCell.Init(start, 0, 0, 0);
@@ -74,15 +81,13 @@ public class Function2 {
         if (nextCell.position == end) {
             // 结束这个函数
             Debug.Log("结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+            foreach (var item in closeSetKey) {
+                Debug.Log(item.position + " " + item.fCost );
+            }
             return -1;
 
         } else {
             Debug.Log("继续");
-            foreach (var cell in closeSetKey) {
-
-                Debug.Log(cell.position + "总和 " + cell.fCost);
-
-            }
             return ProcessCell(nextCell.position, end, hinders);
         }
 
