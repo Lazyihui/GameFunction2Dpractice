@@ -10,6 +10,7 @@ public class Main : MonoBehaviour {
 
         function2 = new Function2();
         function2.openSetKey.Clear();
+        function2.openSetValuePos.Clear();
         a = function2.ProcessCell(new Vector2Int(4, 9), new Vector2Int(8, 7), function2.hinder);
     }
 

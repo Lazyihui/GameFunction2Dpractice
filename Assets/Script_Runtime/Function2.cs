@@ -7,6 +7,8 @@ public class Function2 {
 
     public HashSet<RectCell2> openSetKey = new HashSet<RectCell2>();
 
+    public HashSet<Vector2Int> openSetValuePos = new HashSet<Vector2Int>();
+
     public HashSet<RectCell2> closeSetKey = new HashSet<RectCell2>();
 
     public HashSet<Vector2Int> closeSetValuePos = new HashSet<Vector2Int>();
@@ -24,43 +26,6 @@ public class Function2 {
         new RectCell2 { position = new Vector2Int(6, 8) , hCost = 10000, gCost = 10000, fCost = 1000000},
         new RectCell2 { position = new Vector2Int(6, 10) , hCost = 10000, gCost = 10000, fCost = 1000000}
     };
-
-    // public int ProcessCellMain(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
-
-    //     closeSetKey.Clear();
-    //     closeSetValuePos.Clear();
-    //     for (int i = 0; i < 3; i++) {
-    //         RectCell2 hinder = hinders[i];
-    //         RectCell2 tem = new RectCell2();
-    //         closeSetKey.Add(hinder);
-    //         closeSetValuePos.Add(hinder.position);
-    //     }
-
-    //     // 添加一开始的位置
-    //     RectCell2 startCell = new RectCell2();
-    //     startCell.Init(start, 0, 0, 0);
-    //     openSetKey.Add(startCell);
-
-    //     // AddNeighbor(startCell, end);
-
-    //     RectCell2 nextCell = new RectCell2();
-
-    //     nextCell = GetMinFCell(end);
-
-    //     openSetKey.Add(nextCell);
-
-    //     if (nextCell.position == end) {
-    //         // 结束这个函数
-
-    //         return -1;
-
-    //     } else {
-
-    //         return 0;
-    //     }
-
-    // }
-
 
 
     public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
@@ -88,11 +53,12 @@ public class Function2 {
         Debug.Log("最小的值是" + nextCell.position + " " + nextCell.fCost);
 
         openSetKey.Add(nextCell);
+        openSetValuePos.Add(nextCell.position);
         if (nextCell.position == end) {
             // 结束这个函数
             Debug.Log("结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-            foreach (var item in openSetKey) {
-                Debug.Log(item.position + " " + item.fCost);
+            foreach (var pos in openSetValuePos) {
+                Debug.Log("openSetValuePos" + pos);
             }
             return -1;
 
