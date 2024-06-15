@@ -39,7 +39,8 @@ public class Function2 {
 
     }
 
-    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders) {
+    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders, ref int count) {
+
 
         RectCell2 nextCell = new RectCell2(); // OpenList Get FCost最小的
         nextCell = GetMinFCell(end);
@@ -58,7 +59,14 @@ public class Function2 {
 
         } else {
             Debug.Log("继续");
-            return ProcessCell(nextCell.position, end, hinders);
+            count++;
+            if (count > 100) {
+                return -1;
+            } else {
+                Debug.Log(count + "次");
+                return ProcessCell(nextCell.position, end, hinders, ref count);
+
+            }
         }
 
     }

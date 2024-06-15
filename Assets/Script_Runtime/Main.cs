@@ -7,13 +7,15 @@ public class Main : MonoBehaviour {
     Function2 function2;
     int a;
 
+    int count;
+
     [SerializeField] Vector2Int start;
     [SerializeField] Vector2Int end;
-    
+
     List<RectCell2> hinder = new List<RectCell2>();
 
     void Awake() {
-
+        count = 0;
         function2 = new Function2();
         function2.openSetKey.Clear();
         function2.openSetValuePos.Clear();
@@ -33,7 +35,7 @@ public class Main : MonoBehaviour {
         } else if (Input.GetMouseButtonDown(2)) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int pos = new Vector2Int((int)mousePos.x, (int)mousePos.y);
-            hinder.Add(new RectCell2 { position = pos, hCost = 10000, gCost = 10000, fCost = 1000000});
+            hinder.Add(new RectCell2 { position = pos, hCost = 10000, gCost = 10000, fCost = 1000000 });
         }
 
         if (Input.GetKeyUp(KeyCode.O)) {
@@ -42,7 +44,7 @@ public class Main : MonoBehaviour {
 
         if (a == 0) {
             if (Input.GetKeyUp(KeyCode.Space)) {
-                a = function2.ProcessCell(start, end, hinder);
+                a = function2.ProcessCell(start, end, hinder, ref count);
             }
         } else {
 
