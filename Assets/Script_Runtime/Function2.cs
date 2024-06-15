@@ -15,24 +15,16 @@ public class Function2 {
 
     // ↑ ↓ ← →
     public Vector2Int[] neighbors = new Vector2Int[] {
-            new Vector2Int(1, 0),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(0, -1)
-        };
-
-    public RectCell2[] hinder = new RectCell2[]{
-        new RectCell2 { position = new Vector2Int(6, 9) , hCost = 10000, gCost = 10000, fCost = 1000000},
-        new RectCell2 { position = new Vector2Int(6, 8) , hCost = 10000, gCost = 10000, fCost = 1000000},
-        new RectCell2 { position = new Vector2Int(6, 10) , hCost = 10000, gCost = 10000, fCost = 1000000}
+        new Vector2Int(1, 0),
+        new Vector2Int(-1, 0),
+        new Vector2Int(0, 1),
+        new Vector2Int(0, -1)
     };
 
-
-    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/RectCell2[] hinders) {
-
+    public void Start(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders) {
         closeSetKey.Clear();
         closeSetValuePos.Clear();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < hinders.Count; i++) {
             RectCell2 hinder = hinders[i];
             RectCell2 tem = new RectCell2();
             closeSetKey.Add(hinder);
@@ -45,9 +37,11 @@ public class Function2 {
 
         AddNeighbor(startCell, end);
 
-        RectCell2 nextCell = new RectCell2();
+    }
 
+    public int ProcessCell(Vector2Int start, Vector2Int end,/*不能走的位置先手输*/List<RectCell2> hinders) {
 
+        RectCell2 nextCell = new RectCell2(); // OpenList Get FCost最小的
         nextCell = GetMinFCell(end);
 
         Debug.Log("最小的值是" + nextCell.position + " " + nextCell.fCost);
@@ -77,7 +71,6 @@ public class Function2 {
             Vector2Int neighborPos = start_Cur.position + neighbors[i];
 
             if (neighborPos == end) {
-
                 Debug.Log("走到了");
             }
 
