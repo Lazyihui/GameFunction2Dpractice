@@ -20,6 +20,9 @@ public class Main : MonoBehaviour {
         function2.openSetKey.Clear();
         function2.openSetValuePos.Clear();
         // a = function2.ProcessCell(start, end, hinder);
+        
+        function2.Start(start, end, hinder);
+
     }
 
     void Update() {
