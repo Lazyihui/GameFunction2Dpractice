@@ -13,16 +13,8 @@ public class RectCell2 {
 
     public RectCell2 parent;
 
-    public Vector2Int ParentPosition {
-        get {
-            if (parent == null) {
-                return new Vector2Int(-1, -1);
-            }
-            return parent.position;
-        }
-    }
-
-    public void Init(Vector2Int position, float fCost, float gCost, float hCost) {
+    public void Init(RectCell2 parent, Vector2Int position, float fCost, float gCost, float hCost) {
+        this.parent = parent;
         this.position = position;
         this.fCost = fCost;
         this.gCost = gCost;

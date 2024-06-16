@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147fde135ff59234a8a3923495f4cdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limitedCount: 100000
   start: {x: 4, y: 9}
   end: {x: 8, y: 7}
 --- !u!1 &1301696288

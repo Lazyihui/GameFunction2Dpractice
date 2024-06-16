@@ -7,22 +7,19 @@ public class Main : MonoBehaviour {
     Function2 function2;
     int a;
 
-    int count;
+    [SerializeField] int limitedCount;
 
     [SerializeField] Vector2Int start;
     [SerializeField] Vector2Int end;
 
     [SerializeField] List<RectCell2> hinder = new List<RectCell2>();
 
-
+    RectCell2 result;
 
     void Awake() {
-        count = 0;
         function2 = new Function2();
         function2.openSet.Clear();
         // a = function2.ProcessCell(start, end, hinder);
-
-        function2.Start(start, end, hinder, count);
 
     }
 
@@ -36,22 +33,14 @@ public class Main : MonoBehaviour {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int pos = new Vector2Int((int)mousePos.x, (int)mousePos.y);
             end = pos;
-        } else if (Input.GetMouseButtonDown(2)) {
+        } else if (Input.GetMouseButton(2)) {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int pos = new Vector2Int((int)mousePos.x, (int)mousePos.y);
             hinder.Add(new RectCell2 { position = pos, hCost = 10000, gCost = 10000, fCost = 1000000 });
         }
 
-        if (Input.GetKeyUp(KeyCode.O)) {
-            a = 0;
-        }
-
-        if (a == 0) {
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                a = function2.ProcessCell(start, end, hinder, ref count);
-            }
-        } else {
-
+        if (Input.GetKeyUp(KeyCode.Space)) {
+            function2.Start(start, end, hinder, limitedCount, out int resType, out result);
         }
 
     }
@@ -68,12 +57,18 @@ public class Main : MonoBehaviour {
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(new Vector3(end.x, end.y, 0), new Vector3(1, 1, 1));
 
-        // if (function2 != null) {
-        //     foreach (var pos in function2.openSetValuePos) {
-        //         Gizmos.color = Color.yellow;
-        //         Gizmos.DrawCube(new Vector3(pos.x, pos.y, 0), new Vector3(1, 1, 1));
-        //     }
-        // }
+        if (result != null) {
+            Vector2Int[] posResults = new Vector2Int[10000];
+            int length = 0;
+            RectCell2 cur = result;
+            while (cur != null) {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawCube(new Vector3(cur.position.x, cur.position.y, 0), new Vector3(1, 1, 1));
+                posResults[length++] = cur.position;
+                cur = cur.parent;
+            }
+            
+        }
 
     }
 
